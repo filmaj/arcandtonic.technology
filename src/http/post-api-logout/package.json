@@ -1,0 +1,7 @@
+{
+  "name": "arcauth-post-logout",
+  "dependencies": {
+    "@architect/data": "^2.0.9",
+    "@architect/functions": "^1.11.1"
+  }
+}

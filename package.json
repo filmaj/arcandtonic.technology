@@ -1,0 +1,25 @@
+{
+  "name": "arctonic",
+  "description": "example arc.codes app with auth flow, data persistence and JS frontend powered by tonic.technology",
+  "version": "0.0.1",
+  "author": "Fil Maj <me@filmaj.ca>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/filmaj/arctonic"
+  },
+  "dependencies": {
+    "@architect/architect": "^4.5.2",
+    "@architect/data": "^2.0.9",
+    "@architect/functions": "^1.11.1",
+    "@conductorlab/components": "^3.2.8",
+    "@conductorlab/tonic": "^8.0.0"
+  },
+  "scripts": {
+    "build": "npx components --css public/css/tonic.css && npx components public/js/tonic-components.mjs --include 'router button input' && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak",
+    "start": "npm run build && npx sandbox"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1"
+  }
+}
