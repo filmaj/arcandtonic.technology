@@ -1,11 +1,11 @@
 let arc = require('@architect/functions');
 
 let data = require('@architect/data');
-let layout = require('@architect/shared/views/layout');
+let layout = require('@architect/shared/layout');
 let url = arc.http.helpers.url;
 let form = require('./_form');
 
-// logic for authenticated visitors
+// TODO: fold this into frontend code
 async function authorized (req) {
     let session = await arc.http.session.read(req);
     if (session && session.account) {
@@ -47,8 +47,7 @@ async function authorized (req) {
     }
 }
 
-// shown for unauthenticated visitors
-async function unauthorized (req) {
+exports.handler = async function index (req) {
     let session = await arc.http.session.read(req);
     let html = layout({session});
     return {
@@ -66,5 +65,3 @@ function make_note ({title, body, href}) {
 </div>
 `;
 }
-
-exports.handler = arc.middleware(authorized, unauthorized);

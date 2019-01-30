@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "npx components --css public/css/tonic.css && npx components public/js/tonic-components.mjs --include 'router button input' && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak",
-    "start": "npm run build && npx sandbox"
+    "start": "npm run build && npx sandbox",
+    "deploy": "npm run build && npx deploy"
   },
   "devDependencies": {
     "eslint": "^5.12.1"
