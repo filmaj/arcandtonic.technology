@@ -5,18 +5,17 @@ arcauth
 get /
 get /signup # symlink to / (handled in frontend js)
 get /login # symlink to / (handled in frontend js)
+# API
 post /api/signup
 post /api/login
 post /api/logout
-
-post /notes
-get /notes/:noteID
-post /notes/:noteID
-post /notes/:noteID/del
+post /api/notes
+post /api/notes/:noteID
+post /api/notes/:noteID/del
 
 @static
-staging arcauth-staging
-production arcauth-production
+staging arctonic-staging
+production arctonic-production
 
 @tables
 accounts
