@@ -38,7 +38,7 @@ export default class Login extends Tonic {
             const password = this.root.querySelector('#login_password');
             const submit = this.root.querySelector('#login_submit');
             try {
-                let result = await fetch(`api/login`, {
+                let result = await fetch(`/api/login`, {
                     credentials: 'same-origin',
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -50,7 +50,9 @@ export default class Login extends Tonic {
                 console.log('fetch result', result);
                 if (result && result.ok) {
                     submit.loading(false);
-                    window.location.href = BASE_URL;
+                    let account = await result.json();
+                    document.getElementById('app').reRender({user: account.accountID});
+                    window.history.pushState({}, 'Home', '/');
                 } else {
                     // TODO error
                 }

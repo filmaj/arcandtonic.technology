@@ -1,33 +1,30 @@
 import Tonic from '../tonic.mjs';
 export default class Notes extends Tonic {
-    constructor () {
-        super()
-    }
     render () {
-        if (!this.props.user) {
-            return ``;
-        }
         return `
-        <h3>Create a new note:</h3>
-        <form name="new_note">
-          <tonic-input
-              label="Note"
-              type=text
-              id=note_body
-              placeholder="Enter your note"
-              spellcheck=false>
-          </tonic-input>
-          <tonic-button async=true id=note_submit>
-              Submit
-          </tonic-button>
-        </form>
-        <h3>Old Notes:</h3>
-        <ul id=notes>
-        </ul>`;
+        <div id="notes_container">
+            <h3>Create a new note:</h3>
+            <form name="new_note">
+              <tonic-input
+                  label="Note"
+                  type=text
+                  id=note_body
+                  placeholder="Enter your note"
+                  spellcheck=false>
+              </tonic-input>
+              <tonic-button async=true id=note_submit>
+                  Submit
+              </tonic-button>
+            </form>
+            <h3>Old Notes:</h3>
+            <ul id=notes>
+            </ul>
+        </div>`;
     }
     stylesheet () {
         return `
-        #notes {
+        #notes_container {
+          display: ${this.props.user ? 'block' : 'none'};
         }
         `;
     }

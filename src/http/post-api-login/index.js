@@ -5,7 +5,6 @@ let error = require('@architect/shared/http_error');
 let compare = require('bcryptjs').compareSync;
 
 exports.handler = async function login (req) {
-    let location = url('/');
     let session = await arc.http.session.read(req);
     try {
         let result = await data.accounts.query({
@@ -22,16 +21,16 @@ exports.handler = async function login (req) {
                 delete account.hash;
                 session.account = account;
                 console.log(session.account.accountID, 'logged in');
+                return {
+                    status: 200,
+                    type: 'application/json',
+                    cookie: await arc.http.session.write(session),
+                    body: JSON.stringify(account)
+                };
             }
-        } else {
-            return error({message: 'no results'});
         }
     } catch (e) {
         return error(e);
     }
-    return {
-        status: 302,
-        cookie: await arc.http.session.write(session),
-        location
-    };
+    return error({message: 'not authorized'});
 };
