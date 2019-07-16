@@ -12,13 +12,12 @@
     "@architect/cli": "^6.0.20",
     "@architect/data": "^2.0.9",
     "@architect/functions": "^3.2.2",
-    "@conductorlab/components": "^3.2.8",
-    "@conductorlab/tonic": "^8.0.0"
+    "@conductorlab/components": "^5.2.4",
+    "@conductorlab/tonic": "^9.0.5"
   },
   "scripts": {
-    "build": "npx components --css public/css/tonic.css && npx components public/js/tonic-components.mjs --include 'router button input' && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak",
-    "start": "npm run build && npx sandbox",
-    "deploy": "npm run build && npx deploy"
+    "build": "npx components public/js/tonic-components.mjs && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak && cp node_modules/@conductorlab/components/theme.css public/css/tonic.css",
+    "start": "npm run build && npx sandbox"
   },
   "devDependencies": {
     "eslint": "^5.12.1"

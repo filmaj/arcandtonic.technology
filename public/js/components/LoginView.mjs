@@ -1,57 +1,44 @@
 import Tonic from '../tonic.mjs';
-export default class Signup extends Tonic {
+export default class LoginView extends Tonic {
     render () {
         return `
         <div>
-          <h2>Create an Account</h2>
-          <p>todo: figure out how to communicate errors</p>
+          <h2>Log In</h2>
           <form>
               <tonic-input
                   label="Email Address"
                   type=email
-                  id=email
-                  placeholder="Enter a valid email address"
+                  id=login_email
+                  placeholder="Enter your email address"
                   spellcheck=false
                   error-message="Invalid Email">
               </tonic-input>
               <tonic-input
                   label=Password
                   type=password
-                  id=password
-                  placeholder="Enter a password"
+                  id=login_password
+                  placeholder="Enter your password"
                   spellcheck=false>
               </tonic-input>
-              <tonic-input
-                  label="Confirm Password"
-                  type=password
-                  id=confirm
-                  placeholder="Confirm your password"
-                  spellcheck=false>
-              </tonic-input>
-              <tonic-button async=true id=submit>
-                  Submit
+              <tonic-button async=true id=login_submit>
+                  Log In
               </tonic-button>
           </form>
         </div>`;
     }
     async click (evt) {
-        if (Tonic.match(evt.target, 'tonic-button#submit')) {
+        if (Tonic.match(evt.target, 'tonic-button#login_submit')) {
             evt.preventDefault();
-            const email_input = this.root.querySelector('#email');
+            const email_input = this.root.querySelector('#login_email');
 
             if (email_input.value.length === 0) {
                 alert('email cannot be empty!');
                 return;
             }
-            const password = this.root.querySelector('#password');
-            const confirm = this.root.querySelector('#confirm');
-            if (password.value !== confirm.value) {
-                alert('passwords must match!');
-                return;
-            }
-            const submit = this.root.querySelector('#submit');
+            const password = this.root.querySelector('#login_password');
+            const submit = this.root.querySelector('#login_submit');
             try {
-                let result = await fetch(`/api/signup`, {
+                let result = await fetch(`/api/login`, {
                     credentials: 'same-origin',
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -60,6 +47,7 @@ export default class Signup extends Tonic {
                         password: password.value
                     })
                 });
+                console.log('fetch result', result);
                 if (result && result.ok) {
                     submit.loading(false);
                     let account = await result.json();
@@ -67,7 +55,6 @@ export default class Signup extends Tonic {
                     window.history.pushState({}, 'Home', '/');
                 } else {
                     // TODO error
-                    console.error('yuh oh!', result)
                 }
             } catch (e) {
                 // TODO: error
@@ -76,5 +63,4 @@ export default class Signup extends Tonic {
         }
     }
 }
-Signup.el = 'Signup';
-Tonic.add(Signup);
+Tonic.add(LoginView);

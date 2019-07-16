@@ -1,10 +1,10 @@
 import Tonic from '../tonic.mjs';
-export default class Header extends Tonic {
+export default class HeaderComponent extends Tonic {
     render () {
         return `
         <div>
             <tonic-button id=home>Home</tonic-button>
-            <div id=header-controls>
+            <div id=controls>
                 ${this.props.user
                   ? `Welcome ${this.props.user}. <tonic-button id=logout>logout</tonic-button>?`
                   : `<tonic-button id=signup>Sign up</tonic-button> or <tonic-button id=login>log in</tonic-button>`
@@ -14,11 +14,11 @@ export default class Header extends Tonic {
     }
     stylesheet () {
         return `
-            header>div {
+            header-component>div {
                 display: flex;
                 align-items: center;
             }
-            #header-controls {
+            header-component #controls {
                 margin-left: auto;
             }
         `;
@@ -41,5 +41,4 @@ export default class Header extends Tonic {
         }
     }
 }
-Header.el = 'Header';
-Tonic.add(Header);
+Tonic.add(HeaderComponent);

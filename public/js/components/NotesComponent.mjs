@@ -1,5 +1,5 @@
 import Tonic from '../tonic.mjs';
-export default class Notes extends Tonic {
+export default class NotesComponent extends Tonic {
     render () {
         return `
         <div id="notes_container">
@@ -50,5 +50,4 @@ export default class Notes extends Tonic {
         }
     }
 }
-Notes.el = 'Notes';
-Tonic.add(Notes);
+Tonic.add(NotesComponent);
