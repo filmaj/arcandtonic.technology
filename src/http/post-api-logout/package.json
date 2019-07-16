@@ -1,7 +1,7 @@
 {
-  "name": "arcauth-post-logout",
+  "name": "arctonic-post-logout",
   "dependencies": {
     "@architect/data": "^2.0.9",
-    "@architect/functions": "^1.11.1"
+    "@architect/functions": "^3.2.2"
   }
 }

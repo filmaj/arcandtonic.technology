@@ -1,8 +1,8 @@
 {
-  "name": "arcauth-post-notes",
+  "name": "arctonic-post-notes",
   "dependencies": {
     "@architect/data": "^2.0.9",
-    "@architect/functions": "^1.11.1",
+    "@architect/functions": "^3.2.2",
     "hashids": "^1.2.2"
   }
 }
