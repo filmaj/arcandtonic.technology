@@ -1,17 +1,17 @@
 {
-  "name": "arctonic",
-  "description": "example arc.codes app with auth flow, data persistence and JS frontend powered by tonic.technology",
+  "name": "arcandtonic.technology",
+  "description": "example arc.codes app with auth and data persistence on the backend hosting a PWA powered by tonic.technology",
   "version": "0.0.1",
   "author": "Fil Maj <me@filmaj.ca>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/filmaj/arctonic"
+    "url": "https://github.com/filmaj/arcandtonic.technology"
   },
   "dependencies": {
-    "@architect/architect": "^4.5.2",
+    "@architect/cli": "^6.0.20",
     "@architect/data": "^2.0.9",
-    "@architect/functions": "^1.11.1",
+    "@architect/functions": "^3.2.2",
     "@conductorlab/components": "^3.2.8",
     "@conductorlab/tonic": "^8.0.0"
   },
