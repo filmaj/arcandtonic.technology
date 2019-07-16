@@ -2,14 +2,15 @@ import Tonic from './tonic.mjs';
 import Header from './components/header.mjs';
 import Signup from './components/signup.mjs';
 import Login from './components/login.mjs';
+import Notes from './components/notes.mjs';
 export default class App extends Tonic {
     render () {
         let body = `
             <${Header.el} user="${this.props.user}"></${Header.el}>
-            <tonic-router id=signup-view path="${BASE_URL}signup" >
+            <tonic-router id=signup-view path="/signup" >
                 <${Signup.el}></${Signup.el}>
             </tonic-router>
-            <tonic-router id=login-view path="${BASE_URL}login">
+            <tonic-router id=login-view path="/login">
                 <${Login.el}></${Login.el}>
             </tonic-router>
             <tonic-router id=home-view none>
@@ -17,6 +18,7 @@ export default class App extends Tonic {
               <p>
                 Welcome to arctonic, the app that uses the <a href="https://arc.codes">architect serverless framework</a>
                 together with <a href="https://tonic.technology">tonic, a JavaScript frontend library</a>.
+                <${Notes.el} user="${this.props.user}"></${Notes.el}>
               </p>
             </tonic-router>`;
         return body;

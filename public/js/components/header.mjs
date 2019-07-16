@@ -6,7 +6,7 @@ export default class Header extends Tonic {
             <tonic-button id=home>Home</tonic-button>
             <div id=header-controls>
                 ${this.props.user
-                  ? `Welcome ${this.props.user}. Maybe you want to <tonic-button id=logout>logout</tonic-button>?`
+                  ? `Welcome ${this.props.user}. <tonic-button id=logout>logout</tonic-button>?`
                   : `<tonic-button id=signup>Sign up</tonic-button> or <tonic-button id=login>log in</tonic-button>`
                 }
             </div>
@@ -25,18 +25,18 @@ export default class Header extends Tonic {
     }
     async click (evt) {
         if (Tonic.match(evt.target, 'tonic-button#signup')) {
-            window.history.pushState({}, 'Sign up', `${BASE_URL}signup`);
+            window.history.pushState({}, 'Sign up', `signup`);
         } else if (Tonic.match(evt.target, 'tonic-button#login')) {
-            window.history.pushState({}, 'Log in', `${BASE_URL}login`);
+            window.history.pushState({}, 'Log in', `login`);
         } else if (Tonic.match(evt.target, 'tonic-button#logout')) {
-            let result = await fetch(`${BASE_URL}api/logout`, {
+            await fetch(`/api/logout`, {
                 credentials: 'same-origin',
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
             });
-            window.location.href = BASE_URL;
+            window.location.href = '/';
         } else if (Tonic.match(evt.target, 'tonic-button#home')) {
-            window.history.pushState({}, 'Home', `${BASE_URL}`);
+            window.history.pushState({}, 'Home', `/`);
             evt.preventDefault();
         }
     }

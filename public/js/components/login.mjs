@@ -38,7 +38,7 @@ export default class Login extends Tonic {
             const password = this.root.querySelector('#login_password');
             const submit = this.root.querySelector('#login_submit');
             try {
-                let result = await fetch(`${BASE_URL}api/login`, {
+                let result = await fetch(`api/login`, {
                     credentials: 'same-origin',
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},

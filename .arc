@@ -3,13 +3,12 @@ arcauth
 
 @http
 get /
-get /signup # symlink to / (handled in frontend js)
-get /login # symlink to / (handled in frontend js)
 # API
 post /api/signup
 post /api/login
 post /api/logout
 post /api/notes
+get  /api/notes
 post /api/notes/:noteID
 post /api/notes/:noteID/del
 
