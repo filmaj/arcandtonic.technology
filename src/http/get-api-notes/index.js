@@ -11,12 +11,8 @@ async function route (req) {
             ':accountID': accountID
         }
     });
-
-    // add href to each note for the template link
-    let notes = all.Items.map(function addHref (note) {
-        note.href = url(`/notes/${note.noteID}`);
-        return note;
-    });
+    let notes = all.Items;
+    console.log('retrieved', notes.length, 'notes');
     return {
         status: 200,
         type: 'application/json',

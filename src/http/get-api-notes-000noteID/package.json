@@ -1,7 +1,0 @@
-{
-  "name": "arctonic-get-api-notes-000noteID",
-  "dependencies": {
-    "@architect/data": "^2.0.9",
-    "@architect/functions": "^3.2.2"
-  }
-}
