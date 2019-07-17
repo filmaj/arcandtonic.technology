@@ -2662,6 +2662,7 @@ class TonicInput extends Tonic { /* global Tonic */
       maxlength,
       min,
       max,
+      name,
       tabindex
     } = this.props
 
@@ -2676,6 +2677,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
@@ -2697,6 +2699,7 @@ class TonicInput extends Tonic { /* global Tonic */
       maxLengthAttr,
       minAttr,
       maxAttr,
+      nameAttr,
       disabledAttr,
       requiredAttr,
       tabAttr

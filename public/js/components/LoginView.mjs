@@ -1,13 +1,14 @@
 import Tonic from '../tonic.mjs';
 export default class LoginView extends Tonic {
-    render () {
-        return `
+  render () {
+    return `
         <div>
           <h2>Log In</h2>
-          <form>
+          <form action=/api/login method=post>
               <tonic-input
                   label="Email Address"
                   type=email
+                  name=email
                   id=login_email
                   placeholder="Enter your email address"
                   spellcheck=false
@@ -16,6 +17,7 @@ export default class LoginView extends Tonic {
               <tonic-input
                   label=Password
                   type=password
+                  name=password
                   id=login_password
                   placeholder="Enter your password"
                   spellcheck=false>
@@ -25,42 +27,21 @@ export default class LoginView extends Tonic {
               </tonic-button>
           </form>
         </div>`;
+  }
+  click (evt) {
+    if (Tonic.match(evt.target, 'tonic-button#login_submit')) {
+      const email_input = this.root.querySelector('#login_email');
+      if (email_input.value.length === 0) {
+        alert('email cannot be empty!');
+        evt.preventDefault();
+        return;
+      }
+      const password = this.root.querySelector('#login_password');
+      if (password.value.length === 0) {
+        alert('password cannot be empty!');
+        evt.preventDefault();
+      }
     }
-    async click (evt) {
-        if (Tonic.match(evt.target, 'tonic-button#login_submit')) {
-            evt.preventDefault();
-            const email_input = this.root.querySelector('#login_email');
-
-            if (email_input.value.length === 0) {
-                alert('email cannot be empty!');
-                return;
-            }
-            const password = this.root.querySelector('#login_password');
-            const submit = this.root.querySelector('#login_submit');
-            try {
-                let result = await fetch(`/api/login`, {
-                    credentials: 'same-origin',
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        email: email_input.value,
-                        password: password.value
-                    })
-                });
-                console.log('fetch result', result);
-                if (result && result.ok) {
-                    submit.loading(false);
-                    let account = await result.json();
-                    document.getElementById('app').reRender({user: account.accountID});
-                    window.history.pushState({}, 'Home', '/');
-                } else {
-                    // TODO error
-                }
-            } catch (e) {
-                // TODO: error
-                console.error('error!', e);
-            }
-        }
-    }
+  }
 }
 Tonic.add(LoginView);
