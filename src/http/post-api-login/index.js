@@ -32,11 +32,11 @@ exports.handler = async function (req) {
   } catch (e) {
     return responder(req, {
       status: 500,
-      body: e
+      body: {error: e.message}
     });
   }
   return responder(req, {
     status: 401,
-    body: {message: 'not authorized'}
+    body: {error: 'not authorized'}
   });
 };

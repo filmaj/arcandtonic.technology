@@ -27,7 +27,7 @@ exports.handler = async function (req) {
   } catch (e) {
     return responder(req, {
       status: 500,
-      body: e
+      body: {error: e.message}
     });
   }
   // create the account
@@ -50,7 +50,7 @@ exports.handler = async function (req) {
   } catch (e) {
     return responder(req, {
       status: 500,
-      body: e
+      body: {error: e.message}
     });
   }
   console.log(account.accountID, 'created');

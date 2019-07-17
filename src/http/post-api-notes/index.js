@@ -13,7 +13,8 @@ async function route (req) {
     let payload = req.body;
     if (!payload || !payload.note) {
       return responder(req, {
-        body: {message: 'empty request body or note property'}
+        status: 400,
+        body: {error: 'empty request body or note property'}
       });
     }
     // create the partition and sort keys
@@ -33,7 +34,7 @@ async function route (req) {
   } catch (e) {
     return responder(req, {
       status: 500,
-      body: e
+      body: {error: e.message}
     });
   }
 }

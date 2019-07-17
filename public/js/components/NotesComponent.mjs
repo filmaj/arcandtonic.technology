@@ -1,12 +1,22 @@
 import Tonic from '../tonic.mjs';
+
 export default class NotesComponent extends Tonic {
   renderNotes (notes) {
     return notes.map(note => `<li><form action=/api/notes/${note.noteID}/del method=post>${note.note}<tonic-button async=true width=30px>X</tonic-button></form></li>`).join('\n')
   }
   render () {
-    console.log('notes component props', this.props);
+    let qs = document.location.search;
+    let error = null;
+    if (qs.length) {
+      let params = (new URL(document.location)).searchParams;
+      if (params.has('error')) error = params.get('error')
+    }
     return `
 <h3>Create a new note:</h3>
+<tonic-toaster-inline id=error-toast type=danger dismiss=true
+  display=${error ? 'true' : 'false'}>
+  ${error}
+</tonic-toaster-inline>
 <form name="new_note" action=/api/notes method=post>
   <tonic-input
       label="Note"
@@ -38,10 +48,14 @@ notes-component {
   click (evt) {
     if (Tonic.match(evt.target, 'tonic-button#note_submit')) {
       const note_body = this.root.querySelector('#note_body');
+      const submit = this.root.querySelector('#note_submit');
       if (note_body.value.length === 0) {
-        alert('note body cannot be empty!');
+        note_body.setInvalid('Note cannot be empty!');
         evt.preventDefault();
+        submit.loading(false);
+        return;
       }
+      note_body.setValid();
     }
   }
 }
