@@ -3,6 +3,7 @@ let arc = require('@architect/functions');
 let url = arc.http.helpers.url;
 let data = require('@architect/data');
 let responder = require('@architect/shared/responder');
+let logger = require('@architect/shared/logger')('POST /api/signup');
 let hash = promisify(require('bcryptjs').hash);
 let salt_rounds = 12;
 
@@ -48,12 +49,13 @@ exports.handler = async function (req) {
       });
     }
   } catch (e) {
+    logger(`Exception! ${e.message}`);
     return responder(req, {
       status: 500,
       body: {error: e.message}
     });
   }
-  console.log(account.accountID, 'created');
+  logger(`${account.accountID} created`);
   return responder(req, {
     status: 200,
     cookie: await arc.http.session.write(session),

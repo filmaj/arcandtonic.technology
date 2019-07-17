@@ -1,7 +1,7 @@
 let arc = require('@architect/functions');
 let data = require('@architect/data');
 let layout = require('@architect/shared/layout');
-// TODO: logger in shared
+let logger = require('@architect/shared/logger')('GET /');
 
 exports.handler = async function (req) {
   let params = {title: 'Arc And Tonic'};
@@ -10,7 +10,7 @@ exports.handler = async function (req) {
   if (session.account && session.account.accountID) {
     let accountID = session.account.accountID;
     cookie = await arc.http.session.write(session);
-    console.log(accountID, 'logged in on index');
+    logger(`${accountID} is logged in`);
     params.accountID = accountID;
     let all = await data.notes.query({
       KeyConditionExpression: 'accountID = :accountID',

@@ -2,6 +2,7 @@ let arc = require('@architect/functions');
 let data = require('@architect/data');
 let auth = require('@architect/shared/middleware/auth');
 let responder = require('@architect/shared/responder');
+let logger = require('@architect/shared/logger')('POST /api/notes/<id>/del');
 let url = arc.http.helpers.url;
 
 async function route (req) {
@@ -14,11 +15,13 @@ async function route (req) {
       accountID
     });
   } catch (e) {
+    logger(`Exception! ${e.message}`);
     return responder(req, {
       status: 500,
-      body: e
+      body: {error: e.message}
     });
   }
+  logger(`${noteID} deleted`);
   return responder(req, {
     status: 302,
     cookie: await arc.http.session.write(session),

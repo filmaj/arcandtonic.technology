@@ -3,6 +3,7 @@ let url = arc.http.helpers.url;
 let data = require('@architect/data');
 let auth = require('@architect/shared/middleware/auth');
 let responder = require('@architect/shared/responder');
+let logger = require('@architect/shared/logger')('POST /api/notes');
 let Hashids = require('hashids');
 let hashids = new Hashids();
 
@@ -25,6 +26,7 @@ async function route (req) {
     };
     // save the note
     await data.notes.put(note);
+    logger(`${note.accountID} created a note`);
     return responder(req, {
       status: 200,
       cookie: await arc.http.session.write(session),
@@ -32,6 +34,7 @@ async function route (req) {
       location: url('/')
     });
   } catch (e) {
+    logger(`${session.account.accountID} exception! ${e.message}`);
     return responder(req, {
       status: 500,
       body: {error: e.message}
