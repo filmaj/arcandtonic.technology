@@ -9,7 +9,6 @@ post /api/login
 post /api/logout
 post /api/notes
 get  /api/notes
-post /api/notes/:noteID
 post /api/notes/:noteID/del
 
 @static
