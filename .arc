@@ -1,6 +1,12 @@
 @app
-arcauth
+arctonic
 
+@aws
+region us-west-2
+profile default
+bucket arctonic
+
+@static
 @http
 get /
 # API
@@ -10,10 +16,6 @@ post /api/logout
 post /api/notes
 get  /api/notes
 post /api/notes/:noteID/del
-
-@static
-staging arctonic-staging
-production arctonic-production
 
 @tables
 accounts
