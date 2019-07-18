@@ -8,8 +8,10 @@ module.exports = async function (req) {
   // response is given for application/json vs. text/html
   if (!session || !session.account) {
     return {
-      status: 302,
-      location: url('/login?error=please%20login%20to%20proceed')
+      statusCode: 302,
+      headers: {
+        location: url('/login?error=please%20login%20to%20proceed')
+      }
     };
   }
 };

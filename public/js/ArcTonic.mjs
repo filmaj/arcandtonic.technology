@@ -14,10 +14,10 @@ export default class ArcTonic extends Tonic {
     return this.html`
 <tonic-sprite></tonic-sprite>
 <header-component user="${this.props.user}"></header-component>
-<tonic-router id=signup-view path="/signup" >
+<tonic-router id=signup-view path="${ROOT}signup" >
     <signup-view></signup-view>
 </tonic-router>
-<tonic-router id=login-view path="/login">
+<tonic-router id=login-view path="${ROOT}login">
     <login-view></login-view>
 </tonic-router>
 <tonic-router id=home-view none>

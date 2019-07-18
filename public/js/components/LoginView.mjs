@@ -8,35 +8,35 @@ export default class LoginView extends Tonic {
       if (params.has('error')) error = params.get('error')
     }
     return `
-        <div>
-          <h2>Log In</h2>
-          <tonic-toaster-inline id=error-toast type=danger dismiss=true
-            display=${error ? 'true' : 'false'}>
-            ${error}
-          </tonic-toaster-inline>
-          <form action=/api/login method=post>
-            <tonic-input
-              label="Email Address"
-              type=email
-              name=email
-              id=login_email
-              placeholder="Enter your email address"
-              spellcheck=false
-              error-message="Invalid Email">
-            </tonic-input>
-            <tonic-input
-              label=Password
-              type=password
-              name=password
-              id=login_password
-              placeholder="Enter your password"
-              spellcheck=false>
-            </tonic-input>
-            <tonic-button async=true id=login_submit>
-              Log In
-            </tonic-button>
-          </form>
-        </div>`;
+      <div>
+        <h2>Log In</h2>
+        <tonic-toaster-inline id=error-toast type=danger dismiss=true
+          display=${error ? 'true' : 'false'}>
+          ${error}
+        </tonic-toaster-inline>
+        <form action=${ROOT}api/login method=post>
+          <tonic-input
+            label="Email Address"
+            type=email
+            name=email
+            id=login_email
+            placeholder="Enter your email address"
+            spellcheck=false
+            error-message="Invalid Email">
+          </tonic-input>
+          <tonic-input
+            label=Password
+            type=password
+            name=password
+            id=login_password
+            placeholder="Enter your password"
+            spellcheck=false>
+          </tonic-input>
+          <tonic-button async=true id=login_submit>
+            Log In
+          </tonic-button>
+        </form>
+      </div>`;
   }
   click (evt) {
     if (Tonic.match(evt.target, 'tonic-button#login_submit')) {

@@ -17,15 +17,17 @@ async function route (req) {
   } catch (e) {
     logger(`Exception! ${e.message}`);
     return responder(req, {
-      status: 500,
+      statusCode: 500,
       body: {error: e.message}
     });
   }
   logger(`${noteID} deleted`);
   return responder(req, {
-    status: 302,
-    cookie: await arc.http.session.write(session),
-    location: url('/')
+    statusCode: 302,
+    headers: {
+      'set-cookie': await arc.http.session.write(session),
+      location: url('/')
+    }
   });
 }
 

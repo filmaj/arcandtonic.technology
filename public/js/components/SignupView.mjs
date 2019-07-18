@@ -9,42 +9,42 @@ export default class SignupView extends Tonic {
       if (params.has('error')) error = params.get('error')
     }
     return `<div>
-  <h2>Create an Account</h2>
-  <tonic-toaster-inline id=error-toast type=danger dismiss=true
-    display=${error ? 'true' : 'false'}>
-    ${error}
-  </tonic-toaster-inline>
-  <form action=/api/signup method=post>
-    <tonic-input
-      label="Email Address"
-      type=email
-      id=email
-      name=email
-      required=true
-      placeholder="Enter a valid email address"
-      spellcheck=false
-      error-message="Invalid Email">
-    </tonic-input>
-    <tonic-input
-      label=Password
-      type=password
-      id=password
-      name=password
-      placeholder="Enter a password"
-      spellcheck=false>
-    </tonic-input>
-    <tonic-input
-      label="Confirm Password"
-      type=password
-      id=confirm
-      placeholder="Confirm your password"
-      spellcheck=false>
-    </tonic-input>
-    <tonic-button async=true id=submit>
-      Submit
-    </tonic-button>
-  </form>
-</div>`;
+      <h2>Create an Account</h2>
+      <tonic-toaster-inline id=error-toast type=danger dismiss=true
+        display=${error ? 'true' : 'false'}>
+        ${error}
+      </tonic-toaster-inline>
+      <form action=${ROOT}api/signup method=post>
+        <tonic-input
+          label="Email Address"
+          type=email
+          id=email
+          name=email
+          required=true
+          placeholder="Enter a valid email address"
+          spellcheck=false
+          error-message="Invalid Email">
+        </tonic-input>
+        <tonic-input
+          label=Password
+          type=password
+          id=password
+          name=password
+          placeholder="Enter a password"
+          spellcheck=false>
+        </tonic-input>
+        <tonic-input
+          label="Confirm Password"
+          type=password
+          id=confirm
+          placeholder="Confirm your password"
+          spellcheck=false>
+        </tonic-input>
+        <tonic-button async=true id=submit>
+          Submit
+        </tonic-button>
+      </form>
+    </div>`;
   }
   click (evt) {
     if (Tonic.match(evt.target, 'tonic-button#submit')) {

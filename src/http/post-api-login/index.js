@@ -1,5 +1,6 @@
 let promisify = require('util').promisify;
 let arc = require('@architect/functions');
+let url = arc.http.helpers.url;
 let data = require('@architect/data');
 let responder = require('@architect/shared/responder');
 let logger = require('@architect/shared/logger')('POST /api/login');
@@ -9,13 +10,13 @@ exports.handler = async function (req) {
   let session = await arc.http.session.read(req);
   if (!req.body || !req.body.email || req.body.email.length === 0) {
     return responder(req, {
-      status: 400,
+      statusCode: 400,
       body: {error: 'no email provided'}
     });
   }
   if (!req.body.password || req.body.password.length === 0) {
     return responder(req, {
-      status: 400,
+      statusCode: 400,
       body: {error: 'no password provided'}
     });
   }
@@ -35,23 +36,25 @@ exports.handler = async function (req) {
         session.account = account;
         logger(`${account.accountID} logged in`);
         return responder(req, {
-          status: 200,
-          cookie: await arc.http.session.write(session),
-          body: account,
-          location: '/'
+          statusCode: 200,
+          headers: {
+            'set-cookie': await arc.http.session.write(session),
+            location: url('/')
+          },
+          body: account
         });
       }
     }
   } catch (e) {
     logger(`Exception! ${e.message}`);
     return responder(req, {
-      status: 500,
+      statusCode: 500,
       body: {error: e.message}
     });
   }
   logger(`Unauthorized login attempt for ${req.body.email}`);
   return responder(req, {
-    status: 401,
+    statusCode: 401,
     body: {error: 'not authorized'}
   });
 };

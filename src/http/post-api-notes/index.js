@@ -14,7 +14,7 @@ async function route (req) {
     let payload = req.body;
     if (!payload || !payload.note) {
       return responder(req, {
-        status: 400,
+        statusCode: 400,
         body: {error: 'empty request body or note property'}
       });
     }
@@ -28,15 +28,17 @@ async function route (req) {
     await data.notes.put(note);
     logger(`${note.accountID} created a note`);
     return responder(req, {
-      status: 200,
-      cookie: await arc.http.session.write(session),
-      body: note,
-      location: url('/')
+      statusCode: 200,
+      headers: {
+        'set-cookie': await arc.http.session.write(session),
+        location: url('/')
+      },
+      body: note
     });
   } catch (e) {
     logger(`${session.account.accountID} exception! ${e.message}`);
     return responder(req, {
-      status: 500,
+      statusCode: 500,
       body: {error: e.message}
     });
   }

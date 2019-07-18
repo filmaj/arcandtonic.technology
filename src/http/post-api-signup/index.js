@@ -12,7 +12,7 @@ exports.handler = async function (req) {
   let email = req.body.email;
   if (!email || !email.length) {
     return responder(req, {
-      status: 400,
+      statusCode: 400,
       body: {error: 'no email provided'}
     });
   }
@@ -21,13 +21,13 @@ exports.handler = async function (req) {
     let account = await data.accounts.get({accountID: email});
     if (account && account.accountID === email) {
       return responder(req, {
-        status: 400,
+        statusCode: 400,
         body: {error: 'email already registered'}
       });
     }
   } catch (e) {
     return responder(req, {
-      status: 500,
+      statusCode: 500,
       body: {error: e.message}
     });
   }
@@ -43,7 +43,7 @@ exports.handler = async function (req) {
       session.account = account;
     } else {
       return responder(req, {
-        status: 500,
+        statusCode: 500,
         body: {error: 'error during account creation, got unexpected result from db',
           result}
       });
@@ -51,15 +51,18 @@ exports.handler = async function (req) {
   } catch (e) {
     logger(`Exception! ${e.message}`);
     return responder(req, {
-      status: 500,
+      statusCode: 500,
       body: {error: e.message}
     });
   }
-  logger(`${account.accountID} created`);
+  logger(`${account.accountID} created `);
+  let kook = await arc.http.session.write(session);
   return responder(req, {
-    status: 200,
-    cookie: await arc.http.session.write(session),
-    body: account,
-    location: url('/')
+    statusCode: 200,
+    headers: {
+      'set-cookie': kook,
+      location: url('/')
+    },
+    body: account
   });
 };

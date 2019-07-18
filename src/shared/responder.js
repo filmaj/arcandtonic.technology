@@ -14,15 +14,16 @@ module.exports = function (req, res) {
       if (htmlIdx < jsonIdx) type = 'text/html';
     } else type = 'text/html';
   }
-  res.type = type;
+  res.headers = res.headers || {};
+  res.headers['content-type'] = type;
   switch (type) {
     case 'text/html': {
-      let next = url.parse(res.location ? res.location : req.headers.referer);
+      let next = url.parse(res.headers.location ? res.headers.location : req.headers.referer);
       let path = next.path;
-      res.location = path;
-      res.status = 302;
+      res.headers.location = path;
+      res.statusCode = 302;
       if (res.body) {
-        res.location += (next.search && next.search.length ? '&' : '?') + qs.stringify(res.body);
+        res.headers.location += (next.search && next.search.length ? '&' : '?') + qs.stringify(res.body);
         delete res.body;
       }
       break;

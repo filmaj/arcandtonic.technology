@@ -15,9 +15,11 @@ async function route (req) {
   let notes = all.Items;
   logger(`${accountID} retrieved ${notes.length} notes`);
   return {
-    status: 200,
-    type: 'application/json',
-    cookie: await arc.http.session.write(session),
+    statusCode: 200,
+    headers: {
+      'content-type': 'application/json',
+      'set-cookie': await arc.http.session.write(session)
+    },
     body: JSON.stringify(notes)
   };
 }

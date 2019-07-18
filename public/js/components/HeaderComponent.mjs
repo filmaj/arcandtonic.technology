@@ -2,41 +2,40 @@ import Tonic from '../tonic.mjs';
 export default class HeaderComponent extends Tonic {
   render () {
     return `
-        <div>
-            <tonic-button id=home>Home</tonic-button>
-            <div id=controls>
-                ${this.props.user
+      <div>
+          <tonic-button id=home>Home</tonic-button>
+          <div id=controls>
+              ${this.props.user
     ? `Welcome ${this.props.user}. <tonic-button id=logout>logout</tonic-button>?`
     : `<tonic-button id=signup>Sign up</tonic-button> or <tonic-button id=login>log in</tonic-button>`
 }
-            </div>
-        </div>`;
+          </div>
+      </div>`;
   }
   stylesheet () {
     return `
-            header-component>div {
-                display: flex;
-                align-items: center;
-            }
-            header-component #controls {
-                margin-left: auto;
-            }
-        `;
+      header-component>div {
+          display: flex;
+          align-items: center;
+      }
+      header-component #controls {
+          margin-left: auto;
+      }`;
   }
   async click (evt) {
     if (Tonic.match(evt.target, 'tonic-button#signup')) {
-      window.history.pushState({}, 'Sign up', `signup`);
+      window.history.pushState({}, 'Sign up', `${ROOT}signup`);
     } else if (Tonic.match(evt.target, 'tonic-button#login')) {
-      window.history.pushState({}, 'Log in', `login`);
+      window.history.pushState({}, 'Log in', `${ROOT}login`);
     } else if (Tonic.match(evt.target, 'tonic-button#logout')) {
-      await fetch(`/api/logout`, {
+      await fetch(`${ROOT}api/logout`, {
         credentials: 'same-origin',
         method: 'POST',
         headers: {'Content-Type': 'application/json'}
       });
-      window.location.href = '/';
+      window.location.href = `${ROOT}`;
     } else if (Tonic.match(evt.target, 'tonic-button#home')) {
-      window.history.pushState({}, 'Home', `/`);
+      window.history.pushState({}, 'Home', `${ROOT}`);
       evt.preventDefault();
     }
   }
