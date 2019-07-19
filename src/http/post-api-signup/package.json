@@ -3,7 +3,6 @@
   "dependencies": {
     "@architect/data": "^2.0.9",
     "@architect/functions": "^3.2.2",
-    "bcryptjs": "^2.4.3",
-    "type-is": "^1.6.18"
+    "bcryptjs": "^2.4.3"
   }
 }

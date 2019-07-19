@@ -2,7 +2,6 @@
   "name": "arctonic-get-api-notes",
   "dependencies": {
     "@architect/data": "^2.0.13",
-    "@architect/functions": "^3.2.2",
-    "type-is": "^1.6.18"
+    "@architect/functions": "^3.2.2"
   }
 }

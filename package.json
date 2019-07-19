@@ -13,8 +13,7 @@
     "@architect/data": "^2.0.9",
     "@architect/functions": "^3.2.2",
     "@conductorlab/components": "^5.2.4",
-    "@conductorlab/tonic": "^9.0.5",
-    "type-is": "^1.6.18"
+    "@conductorlab/tonic": "^9.0.5"
   },
   "scripts": {
     "build": "npx components public/js/tonic-components.mjs && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak && cp node_modules/@conductorlab/components/theme.css public/css/tonic.css",
