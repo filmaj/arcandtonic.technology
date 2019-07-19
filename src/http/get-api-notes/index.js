@@ -1,6 +1,7 @@
 let arc = require('@architect/functions');
 let data = require('@architect/data');
 let auth = require('@architect/shared/middleware/auth');
+let bodyParser = require('@architect/shared/middleware/body-parser');
 let logger = require('@architect/shared/logger')('GET /api/notes');
 
 async function route (req) {
@@ -24,4 +25,4 @@ async function route (req) {
   };
 }
 
-exports.handler = arc.middleware(auth, route);
+exports.handler = arc.middleware(auth, bodyParser, route);

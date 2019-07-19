@@ -3,10 +3,11 @@ let arc = require('@architect/functions');
 let url = arc.http.helpers.url;
 let data = require('@architect/data');
 let responder = require('@architect/shared/responder');
+let bodyParser = require('@architect/shared/middleware/body-parser');
 let logger = require('@architect/shared/logger')('POST /api/login');
 let compare = promisify(require('bcryptjs').compare);
 
-exports.handler = async function (req) {
+async function route (req) {
   let session = await arc.http.session.read(req);
   if (!req.body || !req.body.email || req.body.email.length === 0) {
     return responder(req, {
@@ -57,4 +58,6 @@ exports.handler = async function (req) {
     statusCode: 401,
     body: {error: 'not authorized'}
   });
-};
+}
+
+exports.handler = arc.middleware(bodyParser, route);

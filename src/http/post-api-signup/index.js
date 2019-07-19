@@ -3,12 +3,14 @@ let arc = require('@architect/functions');
 let url = arc.http.helpers.url;
 let data = require('@architect/data');
 let responder = require('@architect/shared/responder');
+let bodyParser = require('@architect/shared/middleware/body-parser');
 let logger = require('@architect/shared/logger')('POST /api/signup');
 let hash = promisify(require('bcryptjs').hash);
 let salt_rounds = 12;
 
-exports.handler = async function (req) {
+async function route (req) {
   let session = await arc.http.session.read(req);
+  logger(JSON.stringify(req));
   let email = req.body.email;
   if (!email || !email.length) {
     return responder(req, {
@@ -65,4 +67,6 @@ exports.handler = async function (req) {
     },
     body: account
   });
-};
+}
+
+exports.handler = arc.middleware(bodyParser, route);

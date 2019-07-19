@@ -6,16 +6,15 @@ let logger = require('@architect/shared/logger')('GET /');
 
 exports.handler = async function (req) {
   let params = {
-    title: 'Arc And Tonic',
+    title: 'Arc and Tonic',
     root: url('/')
   };
+  let cookie, session;
   try {
-    let session = await arc.http.session.read(req);
-    let cookie = null;
+    session = await arc.http.session.read(req);
     if (session.account && session.account.accountID) {
       let accountID = session.account.accountID;
       cookie = await arc.http.session.write(session);
-      logger(`${accountID} is logged in`);
       params.accountID = accountID;
       let all = await data.notes.query({
         KeyConditionExpression: 'accountID = :accountID',
@@ -25,15 +24,6 @@ exports.handler = async function (req) {
       });
       params.notes = all.Items;
     }
-    logger('200');
-    return {
-      statusCode: 200,
-      headers: {
-        'content-type': 'text/html',
-        'set-cookie': cookie
-      },
-      body: layout(params)
-    };
   } catch (e) {
     return {
       statusCode: 500,
@@ -43,4 +33,13 @@ exports.handler = async function (req) {
       body: JSON.stringify(e)
     }
   }
+  logger(`200 ${params.accountID ? `(${params.accountID})` : ''}`);
+  return {
+    statusCode: 200,
+    headers: {
+      'content-type': 'text/html',
+      'set-cookie': cookie
+    },
+    body: layout(params)
+  };
 }
