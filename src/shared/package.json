@@ -1,0 +1,22 @@
+{
+  "name": "arctonic-shared",
+  "version": "1.0.0",
+  "description": "shared deps for arctonic lambdas",
+  "main": "layout.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/filmaj/arctonic.git"
+  },
+  "author": "Fil Maj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/filmaj/arctonic/issues"
+  },
+  "homepage": "https://github.com/filmaj/arctonic#readme",
+  "dependencies": {
+    "@architect/functions": "filmaj/functions#middleware-fix-lambda"
+  }
+}

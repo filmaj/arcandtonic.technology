@@ -4,7 +4,7 @@ const JSON_TYPES = ['application/json'];
 const FORM_TYPES = ['application/x-www-form-urlencoded'];
 const WILL_PARSE = JSON_TYPES.concat(FORM_TYPES);
 
-module.exports = function (req) {
+module.exports = async function (req) {
   if (!req.body || typeof req.body === 'object') return;
   console.log('body parser has a body to work with');
   let type = req.headers['content-type'];
@@ -25,8 +25,8 @@ module.exports = function (req) {
       }
     } else if (FORM_TYPES.includes(type)) {
       console.log('body parser will parse form');
-      let b64 = Buffer.from(req.body, 'base64').toString();
       try {
+        let b64 = Buffer.from(req.body, 'base64').toString();
         parsed = qs.parse(b64);
       } catch (e) {
         return {
@@ -36,6 +36,7 @@ module.exports = function (req) {
         };
       }
     }
+    console.log('body parser setting body to', parsed);
     req.body = parsed;
     return req;
   }

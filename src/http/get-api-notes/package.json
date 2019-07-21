@@ -1,7 +1,7 @@
 {
   "name": "arctonic-get-api-notes",
   "dependencies": {
-    "@architect/data": "^2.0.13",
-    "@architect/functions": "^3.2.2"
+    "@architect/functions": "filmaj/functions#middleware-fix-lambda",
+    "@architect/data": "^3.0.5"
   }
 }

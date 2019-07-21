@@ -5,6 +5,7 @@ let layout = require('@architect/shared/layout');
 let logger = require('@architect/shared/logger')('GET /');
 
 exports.handler = async function (req) {
+  console.log('request', req)
   let params = {
     title: 'Arc and Tonic',
     root: url('/')

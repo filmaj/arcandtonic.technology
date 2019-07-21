@@ -1,8 +1,8 @@
 {
   "name": "arctonic-post-signup",
   "dependencies": {
-    "@architect/data": "^2.0.9",
-    "@architect/functions": "^3.2.2",
+    "@architect/functions": "filmaj/functions#middleware-fix-lambda",
+    "@architect/data": "^3.0.5",
     "bcryptjs": "^2.4.3"
   }
 }

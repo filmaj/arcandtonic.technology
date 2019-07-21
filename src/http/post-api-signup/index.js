@@ -9,7 +9,16 @@ let hash = promisify(require('bcryptjs').hash);
 let salt_rounds = 12;
 
 async function route (req) {
-  let session = await arc.http.session.read(req);
+  logger('start of signup!');
+  let session;
+  try {
+    session = await arc.http.session.read(req);
+  } catch (e) {
+    return responder(req, {
+      statusCode: 500,
+      body: {error: e.message}
+    });
+  }
   logger(JSON.stringify(req));
   let email = req.body.email;
   if (!email || !email.length) {

@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@architect/cli": "^6.0.20",
-    "@architect/data": "^2.0.9",
-    "@architect/functions": "^3.2.2",
     "@conductorlab/components": "^5.2.4",
     "@conductorlab/tonic": "^9.0.5"
   },

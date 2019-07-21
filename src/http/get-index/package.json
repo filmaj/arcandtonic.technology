@@ -1,7 +1,7 @@
 {
   "name": "arctonic-get-index",
   "dependencies": {
-    "@architect/data": "^3.0.5",
-    "@architect/functions": "^3.2.2"
+    "@architect/functions": "filmaj/functions#middleware-fix-lambda",
+    "@architect/data": "^3.0.5"
   }
 }
