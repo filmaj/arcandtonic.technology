@@ -1,6 +1,4 @@
 let arc = require('@architect/functions');
-let url = arc.http.helpers.url;
-let data = require('@architect/data');
 let layout = require('@architect/shared/layout');
 let logger = require('@architect/shared/logger')('GET /');
 
@@ -8,7 +6,7 @@ exports.handler = async function (req) {
   console.log('request', req)
   let params = {
     title: 'Arc and Tonic',
-    root: url('/')
+    root: arc.http.helpers.url('/')
   };
   let cookie, session;
   try {
@@ -17,6 +15,7 @@ exports.handler = async function (req) {
       let accountID = session.account.accountID;
       cookie = await arc.http.session.write(session);
       params.accountID = accountID;
+      let data = await arc.tables();
       let all = await data.notes.query({
         KeyConditionExpression: 'accountID = :accountID',
         ExpressionAttributeValues: {

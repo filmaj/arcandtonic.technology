@@ -1,6 +1,4 @@
 let arc = require('@architect/functions');
-let url = arc.http.helpers.url;
-let data = require('@architect/data');
 let auth = require('@architect/shared/middleware/auth');
 let bodyParser = require('@architect/shared/middleware/body-parser');
 let responder = require('@architect/shared/responder');
@@ -23,6 +21,7 @@ async function route (req) {
     note: payload.note
   };
   try {
+    let data = await arc.tables();
     // save the note
     await data.notes.put(note);
   } catch (e) {
@@ -37,7 +36,7 @@ async function route (req) {
     statusCode: 200,
     headers: {
       'set-cookie': await arc.http.session.write(session),
-      location: url('/')
+      location: arc.http.helpers.url('/')
     },
     body: note
   });

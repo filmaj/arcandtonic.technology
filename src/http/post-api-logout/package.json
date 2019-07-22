@@ -1,6 +1,6 @@
 {
   "name": "arctonic-post-logout",
   "dependencies": {
-    "@architect/functions": "filmaj/functions#middleware-fix-lambda"
+    "@architect/functions": "filmaj/functions#v4-rebased"
   }
 }

@@ -1,8 +1,7 @@
 {
   "name": "arctonic-post-notes",
   "dependencies": {
-    "@architect/functions": "filmaj/functions#middleware-fix-lambda",
-    "@architect/data": "^3.0.5",
+    "@architect/functions": "filmaj/functions#v4-rebased",
     "hashids": "^1.2.2"
   }
 }

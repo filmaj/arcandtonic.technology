@@ -1,5 +1,4 @@
 let arc = require('@architect/functions');
-let data = require('@architect/data');
 let auth = require('@architect/shared/middleware/auth');
 let bodyParser = require('@architect/shared/middleware/body-parser');
 let logger = require('@architect/shared/logger')('GET /api/notes');
@@ -7,6 +6,7 @@ let logger = require('@architect/shared/logger')('GET /api/notes');
 async function route (req) {
   let session = await arc.http.session.read(req);
   let accountID = session.account.accountID;
+  let data = await arc.tables();
   let all = await data.notes.query({
     KeyConditionExpression: 'accountID = :accountID',
     ExpressionAttributeValues: {

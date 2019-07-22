@@ -1,7 +1,5 @@
 let promisify = require('util').promisify;
 let arc = require('@architect/functions');
-let url = arc.http.helpers.url;
-let data = require('@architect/data');
 let responder = require('@architect/shared/responder');
 let bodyParser = require('@architect/shared/middleware/body-parser');
 let logger = require('@architect/shared/logger')('POST /api/signup');
@@ -28,7 +26,9 @@ async function route (req) {
     });
   }
   // test if account already exists
+  let data
   try {
+    data = await arc.tables();
     let account = await data.accounts.get({accountID: email});
     if (account && account.accountID === email) {
       return responder(req, {
@@ -72,7 +72,7 @@ async function route (req) {
     statusCode: 200,
     headers: {
       'set-cookie': kook,
-      location: url('/')
+      location: arc.http.helpers.url('/')
     },
     body: account
   });

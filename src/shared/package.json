@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/filmaj/arctonic#readme",
   "dependencies": {
-    "@architect/functions": "filmaj/functions#middleware-fix-lambda"
+    "@architect/functions": "filmaj/functions#v4-rebased"
   }
 }
