@@ -78,4 +78,4 @@ async function route (req) {
   });
 }
 
-exports.handler = arc.middleware(bodyParser, route);
+exports.handler = arc.http.middleware(bodyParser, route);

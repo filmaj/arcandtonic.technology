@@ -26,7 +26,9 @@ module.exports = async function (req) {
     } else if (FORM_TYPES.includes(type)) {
       console.log('body parser will parse form');
       try {
+        console.log('body is', req.body);
         let b64 = Buffer.from(req.body, 'base64').toString();
+        console.log('b64 is', b64);
         parsed = qs.parse(b64);
       } catch (e) {
         return {
@@ -38,6 +40,7 @@ module.exports = async function (req) {
     }
     console.log('body parser setting body to', parsed);
     req.body = parsed;
+    console.log('returning req:', req);
     return req;
   }
 };
