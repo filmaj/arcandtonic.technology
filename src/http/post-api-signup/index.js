@@ -7,7 +7,6 @@ let hash = promisify(require('bcryptjs').hash);
 let salt_rounds = 12;
 
 async function route (req) {
-  logger('start of signup!');
   let session;
   try {
     session = await arc.http.session.read(req);
