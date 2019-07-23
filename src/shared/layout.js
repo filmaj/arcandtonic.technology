@@ -12,7 +12,7 @@ module.exports = function ({title, root, notes, accountID}) {
     <link href=_static/css/tonic.css rel=stylesheet />
   </head>
   <body style="font-family: var(--tonic-body)">
-    <arc-tonic id=app user="${accountID}" notes='${JSON.stringify(notes).replace(/'/g, "\\'")}' id=app></arc-tonic>
+    <arc-tonic id=app user="${accountID}" notes="${JSON.stringify(notes).replace(/"/g, '&quot;')}" id=app></arc-tonic>
     <script type=text/javascript>ROOT = '${root}';</script>
     <script type=module crossorigin>
         import Tonic from './_static/js/tonic.mjs';
