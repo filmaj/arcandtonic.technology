@@ -14,7 +14,8 @@ module.exports = function (req) {
       try {
         parsed = JSON.parse(req.body)
       } catch (e) {
-        console.log(`Exception in body-parser middleware while parsing JSON! ${JSON.stringify(e)}`);
+        // eslint-disable-next-line
+        console.error(`[body-parser middleware] Exception while parsing JSON!`, e);
         return {
           statusCode: 400,
           headers: {'content-type': JSON_TYPES[0]},
@@ -27,7 +28,8 @@ module.exports = function (req) {
           let b64 = Buffer.from(req.body, 'base64').toString();
           parsed = qs.parse(b64);
         } catch (e) {
-          console.log(`Exception in body-parser middleware while base64-parsing the body! ${JSON.stringify(e)}`);
+          // eslint-disable-next-line
+          console.error(`[body-parser middleware] Exception while parsing base64 encoded body!`, e);
           return {
             statusCode: 400,
             headers: {'content-type': 'text/html'},

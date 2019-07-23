@@ -6,19 +6,28 @@ let logger = require('@architect/shared/logger')('POST /api/login');
 let compare = promisify(require('bcryptjs').compare);
 
 async function route (req) {
-  let session = await arc.http.session.read(req);
+  let session;
+  try {
+    session = await arc.http.session.read(req);
+  } catch (e) {
+    let msg = `Error during session reading: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
   if (!req.body || !req.body.email || req.body.email.length === 0) {
     return responder(req, {
       statusCode: 400,
-      body: {error: 'no email provided'}
+      body: {error: 'No request body or email provided!'}
     });
   }
   if (!req.body.password || req.body.password.length === 0) {
     return responder(req, {
       statusCode: 400,
-      body: {error: 'no password provided'}
+      body: {error: 'No password provided!'}
     });
   }
+  let account, authorized;
   try {
     let data = await arc.tables();
     let result = await data.accounts.query({
@@ -28,34 +37,35 @@ async function route (req) {
       }
     });
     if (result && result.Items && result.Items.length) {
-      let account = result.Items.filter((item) => item.accountID === req.body.email)[0];
+      account = result.Items.filter((item) => item.accountID === req.body.email)[0];
       let stored = account.hash;
-      let authorized = await compare(req.body.password, stored);
-      if (authorized) {
-        delete account.hash;
-        session.account = account;
-        logger(`${account.accountID} logged in`);
-        return responder(req, {
-          statusCode: 200,
-          headers: {
-            'set-cookie': await arc.http.session.write(session),
-            location: arc.http.helpers.url('/')
-          },
-          body: account
-        });
-      }
+      authorized = await compare(req.body.password, stored);
     }
   } catch (e) {
-    logger(`Exception! ${e.message}`);
+    let msg = `Exception during data retrieval! ${e.message}`;
+    logger(msg);
     return responder(req, {
       statusCode: 500,
-      body: {error: e.message}
+      body: {error: msg}
     });
   }
-  logger(`Unauthorized login attempt for ${req.body.email}`);
+  if (authorized) {
+    delete account.hash;
+    session.account = account;
+    logger(`${account.accountID} logged in`);
+    return responder(req, {
+      statusCode: 200,
+      headers: {
+        'set-cookie': await arc.http.session.write(session),
+        location: arc.http.helpers.url('/')
+      },
+      body: account
+    });
+  }
+  logger(`Invalid login attempt for ${req.body.email}`);
   return responder(req, {
     statusCode: 401,
-    body: {error: 'not authorized'}
+    body: {error: 'Invalid email or password!'}
   });
 }
 

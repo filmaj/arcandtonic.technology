@@ -31,27 +31,20 @@ async function route (req) {
     // save the note
     await data.notes.put(note);
   } catch (e) {
-    let msg = `Exception saving ${session.account.accountID}'s note! ${e.message}`;
+    let msg = `Exception saving note! ${e.message}`;
     logger(msg);
     return responder(req, {statusCode: 500,
       body: {error: msg}});
   }
   logger(`${note.accountID} created a note`);
-  try {
-    return responder(req, {
-      statusCode: 200,
-      headers: {
-        'set-cookie': await arc.http.session.write(session),
-        location: arc.http.helpers.url('/')
-      },
-      body: note
-    });
-  } catch (e) {
-    let msg = `Exception during session write: ${e.message}`;
-    logger(msg);
-    return responder(req, {statusCode: 500,
-      body: {error: msg}});
-  }
+  return responder(req, {
+    statusCode: 200,
+    headers: {
+      'set-cookie': await arc.http.session.write(session),
+      location: arc.http.helpers.url('/')
+    },
+    body: note
+  });
 }
 
 exports.handler = arc.http.middleware(auth, bodyParser, route);

@@ -5,7 +5,15 @@ let logger = require('@architect/shared/logger')('POST /api/notes/<id>/del');
 
 async function route (req) {
   let noteID = req.params.noteID;
-  let session = await arc.http.session.read(req);
+  let session;
+  try {
+    session = await arc.http.session.read(req);
+  } catch (e) {
+    let msg = `Error during session reading: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
   let accountID = session.account.accountID;
   try {
     let data = await arc.tables();
@@ -14,10 +22,11 @@ async function route (req) {
       accountID
     });
   } catch (e) {
-    logger(`Exception! ${e.message}`);
+    let msg = `Exception during data retrieval! ${e.message}`;
+    logger(msg);
     return responder(req, {
       statusCode: 500,
-      body: {error: e.message}
+      body: {error: msg}
     });
   }
   logger(`${noteID} deleted`);

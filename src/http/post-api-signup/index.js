@@ -77,21 +77,14 @@ async function route (req) {
       body: {error: msg}});
   }
   logger(`${account.accountID} created`);
-  try {
-    return responder(req, {
-      statusCode: 200,
-      headers: {
-        'set-cookie': await arc.http.session.write(session),
-        location: arc.http.helpers.url('/')
-      },
-      body: account
-    });
-  } catch (e) {
-    let msg = `Error during session.write: ${e.message}`;
-    logger(msg);
-    return responder(req, {statusCode: 500,
-      body: {error: msg}});
-  }
+  return responder(req, {
+    statusCode: 200,
+    headers: {
+      'set-cookie': await arc.http.session.write(session),
+      location: arc.http.helpers.url('/')
+    },
+    body: account
+  });
 }
 
 exports.handler = arc.http.middleware(bodyParser, route);

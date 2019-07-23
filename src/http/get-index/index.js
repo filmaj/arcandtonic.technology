@@ -24,6 +24,7 @@ exports.handler = async function (req) {
       params.notes = all.Items;
     }
   } catch (e) {
+    logger(`Exception during session reading/writing or arc.tables/data.notes.query: ${e.message}`);
     return {
       statusCode: 500,
       headers: {
@@ -32,7 +33,7 @@ exports.handler = async function (req) {
       body: JSON.stringify(e)
     }
   }
-  logger(`200 ${params.accountID ? `(${params.accountID})` : ''}`);
+  logger(`200${params.accountID ? ` (${params.accountID})` : ''}`);
   return {
     statusCode: 200,
     headers: {
