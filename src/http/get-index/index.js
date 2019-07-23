@@ -1,5 +1,5 @@
 let arc = require('@architect/functions');
-let layout = require('@architect/shared/layout');
+let layout = require('./layout');
 let logger = require('@architect/shared/logger')('GET /');
 
 exports.handler = async function (req) {
