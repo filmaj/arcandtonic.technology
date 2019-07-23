@@ -46,6 +46,8 @@ export default class NotesComponent extends Tonic {
       }`;
   }
   click (evt) {
+    // TODO: a problem here when you enter double quotes - upon submitting the
+    // input text gets cut off at the double quote. weird.
     if (Tonic.match(evt.target, 'tonic-button#note_submit')) {
       const note_body = this.root.querySelector('#note_body');
       const submit = this.root.querySelector('#note_submit');

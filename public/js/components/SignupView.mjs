@@ -51,6 +51,10 @@ export default class SignupView extends Tonic {
       const email_input = this.root.querySelector('#email');
       const button = this.root.querySelector('#submit');
 
+      // TODO: how to check if browser validation of email input passed? i.e.
+      // shouldnt contain single quote characters.
+      // TODO: can we check if the input is valid? a tonic api? and then prevent
+      // the submit from happening
       if (!email_input.value || email_input.value.length === 0) {
         email_input.setInvalid('Cannot be empty!');
         button.loading(false);

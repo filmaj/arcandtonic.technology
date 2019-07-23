@@ -7,13 +7,19 @@ let Hashids = require('hashids');
 let hashids = new Hashids();
 
 async function route (req) {
-  let session = await arc.http.session.read(req);
+  let session;
+  try {
+    session = await arc.http.session.read(req);
+  } catch (e) {
+    let msg = `Error during session read: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
   let payload = req.body;
   if (!payload || !payload.note) {
-    return responder(req, {
-      statusCode: 400,
-      body: {error: 'empty request body or note property'}
-    });
+    return responder(req, {statusCode: 400,
+      body: {error: 'Empty request body or note property!'}});
   }
   let note = {
     accountID: session.account.accountID,
@@ -25,21 +31,27 @@ async function route (req) {
     // save the note
     await data.notes.put(note);
   } catch (e) {
-    logger(`Exception saving ${session.account.accountID}'s note! ${e.message}`);
-    return responder(req, {
-      statusCode: 500,
-      body: {error: e.message}
-    });
+    let msg = `Exception saving ${session.account.accountID}'s note! ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
   }
   logger(`${note.accountID} created a note`);
-  return responder(req, {
-    statusCode: 200,
-    headers: {
-      'set-cookie': await arc.http.session.write(session),
-      location: arc.http.helpers.url('/')
-    },
-    body: note
-  });
+  try {
+    return responder(req, {
+      statusCode: 200,
+      headers: {
+        'set-cookie': await arc.http.session.write(session),
+        location: arc.http.helpers.url('/')
+      },
+      body: note
+    });
+  } catch (e) {
+    let msg = `Exception during session write: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
 }
 
 exports.handler = arc.http.middleware(auth, bodyParser, route);

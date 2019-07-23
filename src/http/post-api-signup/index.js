@@ -11,17 +11,23 @@ async function route (req) {
   try {
     session = await arc.http.session.read(req);
   } catch (e) {
-    return responder(req, {
-      statusCode: 500,
-      body: {error: e.message}
-    });
+    let msg = `Error during session reading: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
   }
-  logger(JSON.stringify(req));
-  let email = req.body.email;
+  let email = req.body ? req.body.email : null;
   if (!email || !email.length) {
     return responder(req, {
       statusCode: 400,
-      body: {error: 'no email provided'}
+      body: {error: 'No email provided!'}
+    });
+  }
+  let password = req.body ? req.body.password : null;
+  if (!password || !password.length) {
+    return responder(req, {
+      statusCode: 400,
+      body: {error: 'No password provided!'}
     });
   }
   // test if account already exists
@@ -32,18 +38,25 @@ async function route (req) {
     if (account && account.accountID === email) {
       return responder(req, {
         statusCode: 400,
-        body: {error: 'email already registered'}
+        body: {error: 'Email already registered!'}
       });
     }
   } catch (e) {
-    return responder(req, {
-      statusCode: 500,
-      body: {error: e.message}
-    });
+    let msg = `Exception during arc.tables or data.accounts.get: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
   }
   // create the account
-  let password = req.body.password;
-  let hashed = await hash(password, salt_rounds);
+  let hashed
+  try {
+    hashed = await hash(password, salt_rounds);
+  } catch (e) {
+    let msg = `Exception during password hashing: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
   let account = {accountID: email,
     hash: hashed};
   try {
@@ -52,29 +65,33 @@ async function route (req) {
       delete result.hash;
       session.account = account;
     } else {
-      return responder(req, {
-        statusCode: 500,
-        body: {error: 'error during account creation, got unexpected result from db',
-          result}
-      });
+      let msg = `Error during account creation, unexpected result from database: ${result}`;
+      logger(msg);
+      return responder(req, {statusCode: 500,
+        body: {error: msg}});
     }
   } catch (e) {
-    logger(`Exception! ${e.message}`);
-    return responder(req, {
-      statusCode: 500,
-      body: {error: e.message}
-    });
+    let msg = `Exception during data.accounts.put: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
   }
-  logger(`${account.accountID} created `);
-  let kook = await arc.http.session.write(session);
-  return responder(req, {
-    statusCode: 200,
-    headers: {
-      'set-cookie': kook,
-      location: arc.http.helpers.url('/')
-    },
-    body: account
-  });
+  logger(`${account.accountID} created`);
+  try {
+    return responder(req, {
+      statusCode: 200,
+      headers: {
+        'set-cookie': await arc.http.session.write(session),
+        location: arc.http.helpers.url('/')
+      },
+      body: account
+    });
+  } catch (e) {
+    let msg = `Error during session.write: ${e.message}`;
+    logger(msg);
+    return responder(req, {statusCode: 500,
+      body: {error: msg}});
+  }
 }
 
 exports.handler = arc.http.middleware(bodyParser, route);
