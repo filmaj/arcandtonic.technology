@@ -7,6 +7,9 @@ profile default
 bucket arctonic
 
 @static
+ignore
+  eslint
+
 @http
 get /
 # API
