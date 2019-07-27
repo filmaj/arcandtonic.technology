@@ -2,7 +2,15 @@ import Tonic from '../tonic.mjs';
 
 export default class NotesComponent extends Tonic {
   renderNotes (notes) {
-    return notes.map(note => `<li><form action=${ROOT}api/notes/${note.noteID}/del method=post>${note.note}<tonic-button async=true width=30px>X</tonic-button></form></li>`).join('\n')
+    return notes.map(note => {
+      let note_content = new DOMParser().parseFromString(note.note, "text/html").documentElement.textContent;
+      return `<li>
+        <form action=${ROOT}api/notes/${note.noteID}/del method=post>
+          ${note_content}
+          <tonic-button async=true width=30px>X</tonic-button>
+        </form>
+      </li>`
+    }).join('\n')
   }
   render () {
     return `
