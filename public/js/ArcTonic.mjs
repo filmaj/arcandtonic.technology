@@ -3,6 +3,7 @@ import HeaderComponent from './components/HeaderComponent.mjs';
 import SignupView from './components/SignupView.mjs';
 import LoginView from './components/LoginView.mjs';
 import NotesComponent from './components/NotesComponent.mjs';
+import PageError from './components/PageError.mjs';
 
 export default class ArcTonic extends Tonic {
   render () {
@@ -10,10 +11,10 @@ export default class ArcTonic extends Tonic {
     txt.innerHTML = this.props.notes;
     let decoded = txt.value;
     let notes = JSON.parse(decoded);
-    console.log('parsed top level notes', notes);
     return this.html`
 <tonic-sprite></tonic-sprite>
 <header-component user="${this.props.user}"></header-component>
+<page-error></page-error>
 <tonic-router id=signup-view path="${ROOT}signup" >
     <signup-view></signup-view>
 </tonic-router>

@@ -5,18 +5,8 @@ export default class NotesComponent extends Tonic {
     return notes.map(note => `<li><form action=${ROOT}api/notes/${note.noteID}/del method=post>${note.note}<tonic-button async=true width=30px>X</tonic-button></form></li>`).join('\n')
   }
   render () {
-    let qs = document.location.search;
-    let error = null;
-    if (qs.length) {
-      let params = (new URL(document.location)).searchParams;
-      if (params.has('error')) error = params.get('error')
-    }
     return `
       <h3>Create a new note:</h3>
-      <tonic-toaster-inline id=error-toast type=danger dismiss=true
-        display=${error ? 'true' : 'false'}>
-        ${error}
-      </tonic-toaster-inline>
       <form name="new_note" action=${ROOT}api/notes method=post>
         <tonic-input
             label="Note"

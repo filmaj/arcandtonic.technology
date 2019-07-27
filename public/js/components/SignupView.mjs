@@ -2,18 +2,8 @@ import Tonic from '../tonic.mjs';
 
 export default class SignupView extends Tonic {
   render () {
-    let qs = document.location.search;
-    let error = null;
-    if (qs.length) {
-      let params = (new URL(document.location)).searchParams;
-      if (params.has('error')) error = params.get('error')
-    }
     return `<div>
       <h2>Create an Account</h2>
-      <tonic-toaster-inline id=error-toast type=danger dismiss=true
-        display=${error ? 'true' : 'false'}>
-        ${error}
-      </tonic-toaster-inline>
       <form action=${ROOT}api/signup method=post>
         <tonic-input
           label="Email Address"
