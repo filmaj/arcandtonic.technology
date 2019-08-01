@@ -6,6 +6,9 @@ region us-west-2
 profile default
 bucket arctonic
 
+@domain
+arcandtonic.technology
+
 @static
 ignore
   eslint
