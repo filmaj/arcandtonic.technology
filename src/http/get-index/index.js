@@ -3,9 +3,11 @@ let layout = require('./layout');
 let logger = require('@architect/shared/logger')('GET /');
 
 exports.handler = async function (req) {
+  // if you dont have a domain set up, below should be:
+  // root: arc.http.helpers.url('/')
   let params = {
     title: 'Arc and Tonic',
-    root: arc.http.helpers.url('/')
+    root: '/'
   };
   let cookie, session;
   try {
