@@ -4,7 +4,7 @@ export default class SignupView extends Tonic {
   render () {
     return `<div>
       <h2>Create an Account</h2>
-      <form action=${ROOT}api/signup method=post>
+      <form id=signup action=${ROOT}api/signup method=post>
         <tonic-input
           label="Email Address"
           type=email
@@ -30,7 +30,7 @@ export default class SignupView extends Tonic {
           placeholder="Confirm your password"
           spellcheck=false>
         </tonic-input>
-        <tonic-button async=true id=submit>
+        <tonic-button async=true id=signup_submit>
           Submit
         </tonic-button>
       </form>

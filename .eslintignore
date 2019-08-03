@@ -1,2 +1,3 @@
 public/js/tonic.mjs
 public/js/tonic-components.mjs
+**/node_modules

@@ -91,7 +91,7 @@ module.exports = {
                 "before": true
             }
         ],
-        "line-comment-position": "error",
+        "line-comment-position": "off",
         "linebreak-style": [
             "error",
             "unix"
@@ -203,7 +203,7 @@ module.exports = {
         "no-useless-return": "error",
         "no-var": "error",
         "no-void": "error",
-        "no-warning-comments": "error",
+        "no-warning-comments": "off",
         "no-whitespace-before-property": "error",
         "no-with": "error",
         "nonblock-statement-body-position": "error",
@@ -280,7 +280,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "valid-jsdoc": "error",
+        "valid-jsdoc": "off",
         "vars-on-top": "error",
         "wrap-iife": "error",
         "wrap-regex": "error",
