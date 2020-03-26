@@ -4,11 +4,17 @@ let sandbox = {process: null};
 
 // Run `npm start` and dont start the tests until the dev server is up and running
 function startAndWaitForSandbox (sandbox) {
-  return new Promise((resolve) => {
+  return new Promise((resolve/* , reject*/) => {
     /* eslint-disable no-param-reassign */
     // TODO: change the invocation to npm start once tonic supports name attr in
     // input
     sandbox.process = spawn('arc sandbox', [], {shell: true});
+    sandbox.process.on('exit', (/* code, signal*/) => {
+      // for some reason, rejecting the promise here is not handled by
+      // webdriverio
+      // eslint-disable-next-line
+      process.exit(1);
+    });
     sandbox.process.stdout.on('data', (stdout) => {
       const msg = stdout.toString();
       if (msg.includes('environment ready!')) resolve();

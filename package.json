@@ -17,7 +17,7 @@
     "build": "npx components public/js/tonic-components.mjs && sed -i.bak 's/module.exports =/export default/' public/js/tonic-components.mjs && rm public/js/tonic-components.mjs.bak && cp node_modules/@conductorlab/components/theme.css public/css/tonic.css",
     "lint": "eslint .",
     "start": "npm run build && npx sandbox",
-    "test:integration": "NODE_ENV=testing wdio test/integration/local.conf.js",
+    "test:integration": "cross-env NODE_ENV=testing AWS_ACCESS_KEY_ID=foo AWS_SECRET_ACCESS_KEY=bar AWS_REGION=us-west-1 wdio test/integration/local.conf.js",
     "test": "npm run lint && npm run test:integration"
   },
   "devDependencies": {
@@ -28,6 +28,7 @@
     "@wdio/spec-reporter": "^5.11.7",
     "@wdio/sync": "^5.11.11",
     "chromedriver": "^76.0.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.12.1",
     "wdio-chromedriver-service": "^5.0.2",
     "webdriverio": "^5.11.12"
